@@ -11,8 +11,7 @@ const Map = ({ geojson }) => {
     if (!mapContainer.current) return;
 
     // Initialize Mapbox GL JS
-    mapboxgl.accessToken =
-      "pk.eyJ1Ijoianh2b25lbiIsImEiOiJjbTFucnJybmkwd2IwMmtxdTZlOTNqNzg3In0.Fsaj2ki4GAv_Tp8WFjT33g"; // Replace with your token
+    mapboxgl.accessToken = process.env.MAPBOX_TOKEN // Replace with your token
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: {
