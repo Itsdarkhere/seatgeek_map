@@ -1,5 +1,5 @@
 import Map from "@/components/Map";
-import seatmapData from '../public/seatmap.json';
+import seatmapData from '../public/seatmapt.json';
 
 export default function Home() {
   return (
