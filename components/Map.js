@@ -11,7 +11,7 @@ const Map = ({ geojson }) => {
     if (!mapContainer.current) return;
 
     // Initialize Mapbox GL JS
-    mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN // Replace with your token
+    mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN; // Replace with your token
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: {
@@ -35,10 +35,10 @@ const Map = ({ geojson }) => {
       renderWorldCopies: false,
       //   maxZoom: 6,
       coordinates: [
-        [-85, 57.375],   // Top-left
-        [85, 57.375],    // Top-right
-        [85, -57.375],   // Bottom-right
-        [-85, -57.375],  // Bottom-left
+        [-85, 57.375], // Top-left
+        [85, 57.375], // Top-right
+        [85, -57.375], // Bottom-right
+        [-85, -57.375], // Bottom-left
       ],
     });
 
@@ -49,18 +49,6 @@ const Map = ({ geojson }) => {
         data: geojson,
       });
 
-      // Add layer for seats (points)
-      map.current.addLayer({
-        id: "seats",
-        type: "circle",
-        source: "seatmap",
-        filter: ["==", "$type", "Point"],
-        paint: {
-          "circle-radius": 10,
-          "circle-color": "#007cbf",
-        },
-      });
-
       // Add layer for sections (polygons)
       map.current.addLayer({
         id: "sections",
@@ -68,20 +56,13 @@ const Map = ({ geojson }) => {
         source: "seatmap",
         filter: ["==", "$type", "Polygon"],
         paint: {
-          "fill-color": "#ff0000",
-          "fill-opacity": 0.5,
-        },
-      });
-
-      // Add outlines for sections
-      map.current.addLayer({
-        id: "section-outlines",
-        type: "line",
-        source: "seatmap",
-        filter: ["==", "$type", "Polygon"],
-        paint: {
-          "line-color": "#000000",
-          "line-width": 2,
+          "fill-color": [
+            "case",
+            ["==", ["get", "fill"], "none"], // If fill is "none"
+            "transparent", // Make it transparent
+            ["get", "fill"], // Otherwise, use the fill color
+          ],
+          "fill-opacity": 1,
         },
       });
 
